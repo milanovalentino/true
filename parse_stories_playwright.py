@@ -55,6 +55,9 @@ def build_message(stories):
         else:
             text += f"{number_emoji} {story['title']} ({story['source_name']}).\n\n"
 
+    # Добавляем в конце
+    text += "Зайди на «минутку»! (https://www.minutka.media/)\n"
+
     return text
 
 def send_to_telegram(text):
