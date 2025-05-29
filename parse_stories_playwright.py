@@ -56,7 +56,7 @@ def build_message(stories):
             text += f"{number_emoji} {story['title']} ({story['source_name']}).\n\n"
 
     # Добавляем в конце
-    text += "Зайди на [«минутку»!](https://www.minutka.media/)\n"
+    text += "[Зайди на «минутку»!](https://www.minutka.media/)\n"
 
     return text
 
