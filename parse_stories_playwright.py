@@ -1,6 +1,9 @@
 from playwright.sync_api import sync_playwright
 from bs4 import BeautifulSoup
 import os
+import pytz
+from datetime import datetime
+import requests
 
 URL = "https://thetruestory.news/ru/russia"
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -34,10 +37,11 @@ def parse_with_playwright():
         return results
 
 def build_message(stories):
-    from datetime import datetime
-    now = datetime.now().strftime("%d.%m.%Y %H:%M")
+    moscow_tz = pytz.timezone("Europe/Moscow")
+    now = datetime.now(moscow_tz)
+    now_str = now.strftime("%d.%m %H:%M")
 
-    text = f"🗞 ЕЖ. День — главные новости к {now}:\n\n"
+    text = f"«Минутка» | Главное к {now_str}:\n\n"
 
     emoji_numbers = ["1⃣", "2⃣", "3⃣", "4⃣", "5⃣", "6⃣", "7⃣"]
 
@@ -54,13 +58,12 @@ def build_message(stories):
     return text
 
 def send_to_telegram(text):
-    import requests
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     data = {
         "chat_id": CHANNEL_ID,
         "text": text,
         "parse_mode": "Markdown",
-        "disable_web_page_preview": False,
+        "disable_web_page_preview": True,  # Отключаем превью
     }
     response = requests.post(url, data=data)
     response.raise_for_status()
