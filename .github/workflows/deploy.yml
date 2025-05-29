@@ -2,7 +2,7 @@ name: News parser with Playwright
 
 on:
   schedule:
-    - cron: '0 9 * * *'  # запуск каждый день в 9:00 UTC
+    - cron: '0 9 * * *'  # запуск каждый день в 12:00 по Москве (UTC+3)
   workflow_dispatch:
 
 jobs:
