@@ -1,0 +1,21 @@
+name: Keep repo alive
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"   # 1 число каждого месяца, 00:00 UTC
+  workflow_dispatch:        # можно запустить и руками для проверки
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Make a tiny commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          echo "Last keepalive: $(date -u)" > .keepalive
+          git add .keepalive
+          git commit -m "chore: keepalive" || echo "Nothing to commit"
+          git push
